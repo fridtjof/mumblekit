@@ -1,5 +1,5 @@
 #define OPUS_BUILD /**/
-#define PACKAGE_VERSION "v1.1"
+#define PACKAGE_VERSION "v1.2.1"
 
 #define FLOATING_POINT
 #define VAR_ARRAYS
