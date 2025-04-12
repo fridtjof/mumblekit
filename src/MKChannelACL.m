@@ -4,6 +4,7 @@
 
 #import "MKChannelACL.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @implementation MKChannelACL
 
 @synthesize applyHere;
@@ -144,3 +145,4 @@
 }
 
 @end
+NS_ASSUME_NONNULL_END
