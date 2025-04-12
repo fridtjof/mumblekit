@@ -4,6 +4,7 @@
 
 #import <MumbleKit/MKTextMessage.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @interface MKTextMessage () <NSXMLParserDelegate> {
     NSString         *_rawStr;
     NSMutableString  *_plainStr;
@@ -97,7 +98,7 @@
 
 #pragma mark - NSXMLParserDelegate
 
-- (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict {
+- (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName attributes:(NSDictionary *)attributeDict {
     if ([elementName isEqualToString:@"img"]) {
         NSString *src = [attributeDict objectForKey:@"src"];
         if ([src hasPrefix:@"data:"]) {
@@ -111,7 +112,7 @@
     }
 }
 
-- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+- (void) parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName {
     if ([elementName isEqualToString:@"br"] || [elementName isEqualToString:@"p"])
         [_plainStr appendString:@"\n"];
 }
@@ -121,3 +122,4 @@
 }
 
 @end
+NS_ASSUME_NONNULL_END
