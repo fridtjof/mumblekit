@@ -11,6 +11,7 @@ typedef enum {
 
 @class MKChannel;
 
+NS_ASSUME_NONNULL_BEGIN
 /// @class MKUser MKUser.h MumbleKit/MKUser.h
 ///
 /// MKUser represents a user on a Mumble server. A user always resides in a channel, which is
@@ -40,11 +41,11 @@ typedef enum {
 - (NSUInteger) session;
 
 /// Returns the user's username.
-- (NSString *) userName;
+- (nullable NSString *) userName;
 
 /// Returns the user's hash. Typically, the the hash is the SHA1 digest of the user's X.509
 /// certificate, but could be any unique hash that identifies the user.
-- (NSString *) userHash;
+- (nullable NSString *) userHash;
 
 /// Returns the user's current talk state. See MKTalkState for more information.
 - (MKTalkState) talkState;
@@ -80,20 +81,21 @@ typedef enum {
 - (BOOL) isRecording;
 
 /// Returns the channel that the receiving user is currently residing in.
-- (MKChannel *) channel;
+- (nullable MKChannel *) channel;
 
 /// Returns the server's hash of the contents of the user's current comment.
-- (NSData *) commentHash;
+- (nullable NSData *) commentHash;
 
 /// Return the user's current comment as an NSString.
-- (NSString *) comment;
+- (nullable NSString *) comment;
 
 /// Returns the server's hash of the user's current texture.
-- (NSData *) textureHash;
+- (nullable NSData *) textureHash;
 
 /// Returns the user's texture as an NSData object. The NSData object
 /// contains the binary representation of the user's texture as an image
 /// in either JPEG, PNG or ARGB32 format.
-- (NSData *) texture;
+- (nullable NSData *) texture;
 
 @end
+NS_ASSUME_NONNULL_END

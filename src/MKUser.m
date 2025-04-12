@@ -8,6 +8,8 @@
 #import <MumbleKit/MKChannel.h>
 #import "MKChannelPrivate.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MKUser () {
     BOOL         _muted;
     BOOL         _deafened;
@@ -21,13 +23,13 @@
     MKTalkState  _talkState;
     NSUInteger   _session;
     NSInteger    _userId;
-    NSString     *_userHash;
-    NSString     *_username;
-    MKChannel    *_channel;
-    NSString     *_comment;
-    NSData       *_commentHash;
-    NSData       *_texture;
-    NSData       *_textureHash;
+    NSString     * _Nullable _userHash;
+    NSString     * _Nullable _username;
+    MKChannel    * _Nullable _channel;
+    NSString     * _Nullable _comment;
+    NSData       * _Nullable _commentHash;
+    NSData       * _Nullable _texture;
+    NSData       * _Nullable _textureHash;
 }
 @end
 
@@ -65,7 +67,7 @@
     _username = [name copy];
 }
 
-- (NSString *) userName {
+- (nullable NSString *) userName {
     return _username;
 }
 
@@ -82,7 +84,7 @@
     _userHash = [hash copy];
 }
 
-- (NSString *) userHash {
+- (nullable NSString *) userHash {
     return _userHash;
 }
 
@@ -178,11 +180,11 @@
     return _recording;
 }
 
-- (void) setChannel:(MKChannel *)chan {
+- (void) setChannel:(nullable MKChannel *)chan {
     _channel = chan;
 }
 
-- (MKChannel *) channel {
+- (nullable MKChannel *) channel {
     return _channel;
 }
 
@@ -191,7 +193,7 @@
     _commentHash = [hash copy];
 }
 
-- (NSData *) commentHash {
+- (nullable NSData *) commentHash {
     return _commentHash;
 }
 
@@ -200,16 +202,16 @@
     _comment = [comment copy];
 }
 
-- (NSString *) comment {
+- (nullable NSString *) comment {
     return _comment;
 }
 
-- (void) setTextureHash:(NSData *)hash {
+- (void) setTextureHash:(nullable NSData *)hash {
     [_textureHash release];
     _textureHash = [hash copy];
 }
 
-- (NSData *) textureHash {
+- (nullable NSData *) textureHash {
     return _textureHash;
 }
 
@@ -218,8 +220,9 @@
     _texture = [texture copy];
 }
 
-- (NSData *) texture {
+- (nullable NSData *) texture {
     return _texture;
 }
 
 @end
+NS_ASSUME_NONNULL_END
