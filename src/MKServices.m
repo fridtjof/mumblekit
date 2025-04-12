@@ -6,7 +6,7 @@
 
 @implementation MKServices
 
-+ (NSString *) regionalServicesHost {
++ (nullable NSString *) regionalServicesHost {
 	return nil;
 }
 

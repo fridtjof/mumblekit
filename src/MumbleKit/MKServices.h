@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+NS_ASSUME_NONNULL_BEGIN
 /// @class MKServices MKServices.h MumbleKit/MKServices.h
 ///
 /// MKServices implements convenience methods for accessing publicly available
@@ -11,7 +12,7 @@
 /// Get the hostname of the closest regional services host.
 ///
 /// Note: This method is deprecated and always returns nil.
-+ (NSString *) regionalServicesHost;
++ (nullable NSString *) regionalServicesHost;
 
 /// Get the URL of the server list on a server near the client's current location.
 + (NSString *) regionalServerList;
@@ -20,3 +21,4 @@
 + (NSURL *) regionalServerListURL;
 
 @end
+NS_ASSUME_NONNULL_END
