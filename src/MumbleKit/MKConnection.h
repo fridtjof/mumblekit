@@ -78,6 +78,7 @@ typedef enum {
     MKRejectReasonNoCertificate
 } MKRejectReason;
 
+NS_ASSUME_NONNULL_BEGIN
 /// @protocol MKConnectionDelegate MumbleKit/MKConnection.h
 ///
 /// MKConnectionDelegate implements a set of methods that are called on the delegate
@@ -302,19 +303,19 @@ typedef enum {
 
 /// A textual description of the version number of the Mumble server that the MKConnection
 /// object is currently connected to.
-- (NSString *) serverVersion;
+- (nullable NSString *) serverVersion;
 
 /// A textual description of the release name of the Mumble server that the MKConnection
 /// object is currently connected to.
-- (NSString *) serverRelease;
+- (nullable NSString *) serverRelease;
 
 /// A textual description of the operating system that powers the Mumble server that the
 /// MKConnection object is currently connected to.
-- (NSString *) serverOSName;
+- (nullable NSString *) serverOSName;
 
 /// A textual description of the version of the operating system that powers the Mumble
 /// server that the MKConnection object is currently connected to.
-- (NSString *) serverOSVersion;
+- (nullable NSString *) serverOSVersion;
 
 ///-------------------------------------
 /// @name Authenticating with the server
@@ -438,3 +439,4 @@ typedef enum {
 - (BOOL) shouldUseOpus;
 
 @end
+NS_ASSUME_NONNULL_END

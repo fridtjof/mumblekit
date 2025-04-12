@@ -58,8 +58,8 @@
     id             _delegate;
     int            _socket;
     CFSocketRef    _udpSock;
-    NSArray        *_certificateChain;
-    NSError        *_connError;
+    NSArray        * _Nullable _certificateChain;
+    NSError        * _Nullable _connError;
     BOOL           _rejected;
 
     // Codec info
@@ -69,11 +69,11 @@
     BOOL           _shouldUseOpus;
     
     // Server info.
-    NSString       *_serverVersion;
-    NSString       *_serverRelease;
-    NSString       *_serverOSName;
-    NSString       *_serverOSVersion;
-    NSMutableArray *_peerCertificates;
+    NSString       * _Nullable _serverVersion;
+    NSString       * _Nullable _serverRelease;
+    NSString       * _Nullable _serverOSName;
+    NSString       * _Nullable _serverOSVersion;
+    NSMutableArray * _Nullable _peerCertificates;
     BOOL           _trustedChain;
 }
 
@@ -327,19 +327,19 @@ static void MKConnectionUDPCallback(CFSocketRef sock, CFSocketCallBackType type,
 
 #pragma mark Server Information
 
-- (NSString *) serverVersion {
+- (nullable NSString *) serverVersion {
     return _serverVersion;
 }
 
-- (NSString *) serverRelease {
+- (nullable NSString *) serverRelease {
     return _serverRelease;
 }
 
-- (NSString *) serverOSName {
+- (nullable NSString *) serverOSName {
     return _serverOSName;
 }
 
-- (NSString *) serverOSVersion {
+- (nullable NSString *) serverOSVersion {
     return _serverOSVersion;
 }
 
