@@ -10,6 +10,7 @@ typedef struct _MKServerPingerResult {
     double  ping;
 } MKServerPingerResult;
 
+NS_ASSUME_NONNULL_BEGIN
 /// @protocol MKServerPingerDelegate MKServerPinger.h MumbleKit/MKServerPinger.h
 @protocol MKServerPingerDelegate
 - (void) serverPingerResult:(MKServerPingerResult *)result;
@@ -48,3 +49,4 @@ typedef struct _MKServerPingerResult {
 - (void) setDelegate:(id<MKServerPingerDelegate>)delegate;
 
 @end
+NS_ASSUME_NONNULL_END

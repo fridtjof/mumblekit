@@ -23,7 +23,7 @@
 }
 
 - (id) initWithAddress:(NSData *)address;
-- (NSData *) address;
+- (nullable NSData *) address;
 
 @end
 
@@ -292,7 +292,7 @@
     return _delegate;
 }
 
-- (NSData *) address {
+- (nullable NSData *) address {
     return _address;
 }
 
