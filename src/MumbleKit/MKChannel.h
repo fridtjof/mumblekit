@@ -4,6 +4,7 @@
 
 @class MKUser;
 
+NS_ASSUME_NONNULL_BEGIN
 /// @class MKChannel MKChannel.h MumbleKit/MKChannel.h
 ///
 /// MKChannel represents a channel on a Mumble server. MKChannel objects are owned
@@ -38,7 +39,7 @@
 ///
 /// @returns  The MKChannel object representing the channel's parent.
 ///           Returns nil if the current channel is the root channel.
-- (MKChannel *) parent;
+- (nullable MKChannel *) parent;
 
 /// Returns an NSArray of the channel's subchannels represented as MKChannels.
 - (NSArray *) channels;
@@ -59,9 +60,10 @@
 
 /// Returns a channel's description hash. (On most server implementations, this
 /// is a SHA1 digest).
-- (NSData *) channelDescriptionHash;
+- (nullable NSData *) channelDescriptionHash;
 
 /// Returns the channel's description.
-- (NSString *) channelDescription;
+- (nullable NSString *) channelDescription;
 
 @end
+NS_ASSUME_NONNULL_END

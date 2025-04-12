@@ -9,16 +9,16 @@
 #import "MKUserPrivate.h"
 
 @interface MKChannel () {
-    MKChannel        *_parent;
+    MKChannel        * _Nullable _parent;
     NSUInteger       _channelId;
-    NSString         *_channelName;
+    NSString         * _Nullable _channelName;
     BOOL             _temporary;
     NSInteger        _position;
     NSMutableArray   *_channels;
     NSMutableArray   *_users;
     NSMutableArray   *_linked;
-    NSData           *_channelDescriptionHash;
-    NSString         *_channelDescription;
+    NSData           * _Nullable _channelDescriptionHash;
+    NSString         * _Nullable _channelDescription;
 }
 @end
 
@@ -167,7 +167,7 @@
     _channelDescriptionHash = [hash copy];
 }
 
-- (NSData *) channelDescriptionHash {
+- (nullable NSData *) channelDescriptionHash {
     return _channelDescriptionHash;
 }
 
@@ -176,7 +176,7 @@
     _channelDescription = [desc copy];
 }
 
-- (NSString *) channelDescription {
+- (nullable NSString *) channelDescription {
     return _channelDescription;
 }
 
