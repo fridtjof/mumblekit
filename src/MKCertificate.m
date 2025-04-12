@@ -17,6 +17,8 @@
 #import <CommonCrypto/CommonDigest.h>
 
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString *MKCertificateItemCommonName   = @"CN";
 NSString *MKCertificateItemCountry      = @"C";
 NSString *MKCertificateItemOrganization = @"O";
@@ -38,27 +40,27 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 @interface MKCertificate () {
-    NSData          *_derCert;
-    NSData          *_derPrivKey;
+    NSData          * _Nullable _derCert;
+    NSData          * _Nullable _derPrivKey;
     
-    NSDictionary    *_subjectDict;
-    NSDictionary    *_issuerDict;
+    NSDictionary    * _Nullable _subjectDict;
+    NSDictionary    * _Nullable _issuerDict;
     
-    NSDate          *_notAfterDate;
-    NSDate          *_notBeforeDate;
+    NSDate          * _Nullable _notAfterDate;
+    NSDate          * _Nullable _notBeforeDate;
     
-    NSMutableArray  *_emailAddresses;
-    NSMutableArray  *_dnsEntries;
+    NSMutableArray  * _Nullable _emailAddresses;
+    NSMutableArray  * _Nullable _dnsEntries;
 }
 
-- (void) setCertificate:(NSData *)cert;
-- (NSData *) certificate;
+- (void) setCertificate:(nullable NSData *)cert;
+- (nullable NSData *) certificate;
 
-- (void) setPrivateKey:(NSData *)pkey;
-- (NSData *) privateKey;
+- (void) setPrivateKey:(nullable NSData *)pkey;
+- (nullable NSData *) privateKey;
 
 - (void) extractCertInfo;
-- (X509 *) copyOpenSSLX509;
+- (nullable X509 *) copyOpenSSLX509;
 @end
 
 @implementation MKCertificate
@@ -80,25 +82,25 @@ static int add_ext(X509 * crt, int nid, char *value) {
     [super dealloc];
 }
 
-- (void) setCertificate:(NSData *)cert {
+- (void) setCertificate:(nullable NSData *)cert {
     _derCert = [cert retain];
 }
 
-- (NSData *) certificate {
+- (nullable NSData *) certificate {
     return _derCert;
 }
 
-- (void) setPrivateKey:(NSData *)pkey {
+- (void) setPrivateKey:(nullable NSData *)pkey {
     _derPrivKey = [pkey retain];
 }
 
-- (NSData *) privateKey {
+- (nullable NSData *) privateKey {
     return _derPrivKey;
 }
 
 // Returns an autoreleased MKCertificate object constructed by the given DER-encoded
 // certificate and private key.
-+ (MKCertificate *) certificateWithCertificate:(NSData *)cert privateKey:(NSData *)privkey {
++ (MKCertificate *) certificateWithCertificate:(NSData *)cert privateKey:(nullable NSData *)privkey {
     MKCertificate *ourCert = [[MKCertificate alloc] init];
     [ourCert setCertificate:cert];
     [ourCert setPrivateKey:privkey];
@@ -108,14 +110,14 @@ static int add_ext(X509 * crt, int nid, char *value) {
 
 // Generate a self-signed certificate with the given name and email address as
 // a MKCertificate object.
-+ (MKCertificate *) selfSignedCertificateWithName:(NSString *)aName email:(NSString *)anEmail {
++ (MKCertificate *) selfSignedCertificateWithName:(nullable NSString *)aName email:(nullable NSString *)anEmail {
     return [MKCertificate selfSignedCertificateWithName:aName email:anEmail rsaKeyPair:nil];
 }
 
 // Generate a self-signed certificate with the given name and email address as
 // a MKCertificate object.  Can also take an MKRSAKeyPair which it will use instead
 // of generating its own.
-+ (MKCertificate *) selfSignedCertificateWithName:(NSString *)aName email:(NSString *)anEmail rsaKeyPair:(MKRSAKeyPair *)keyPair {
++ (MKCertificate *) selfSignedCertificateWithName:(nullable NSString *)aName email:(nullable NSString *)anEmail rsaKeyPair:(nullable MKRSAKeyPair *)keyPair {
     CRYPTO_mem_ctrl(CRYPTO_MEM_CHECK_ON);
 
     X509 *x509 = X509_new();
@@ -179,7 +181,7 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 // Import a PKCS12-encoded certificate, public key and private key using the given password.
-+ (MKCertificate *) certificateWithPKCS12:(NSData *)pkcs12 password:(NSString *)password {
++ (MKCertificate *) certificateWithPKCS12:(NSData *)pkcs12 password:(nullable NSString *)password {
     MKCertificate *retcert = nil;
     X509 *x509 = NULL;
     EVP_PKEY *pkey = NULL;
@@ -239,7 +241,7 @@ static int add_ext(X509 * crt, int nid, char *value) {
 // Transliterated from C++ to C/Objective-C from libmumble's X509CertificatePrivate::FromPKCS12
 // with a minor fix to avoid duplicating the leaf certificate (sha256 comparison).
 // TODO(mkrautz): backport the above fix, or one like it, to libmumble.
-+ (NSArray *) certificatesWithPKCS12:(NSData *)pkcs12 password:(NSString *)password {
++ (NSArray *) certificatesWithPKCS12:(NSData *)pkcs12 password:(nullable NSString *)password {
     NSMutableArray *out_certs = [NSMutableArray array];
     X509 *x509 = NULL;
     EVP_PKEY *pkey = NULL;
@@ -355,7 +357,7 @@ static int add_ext(X509 * crt, int nid, char *value) {
 
 // Export a chain of certificates to a PKCS12-encoded data blob. In most cases, the leaf
 // certificate is expected to contain a private key, but this is not required.
-+ (NSData *) exportCertificateChainAsPKCS12:(NSArray *)chain withPassword:(NSString *)password {
++ (NSData *) exportCertificateChainAsPKCS12:(NSArray *)chain withPassword:(nullable NSString *)password {
     X509 *x509 = NULL;
     EVP_PKEY *pkey = NULL;
     PKCS12 *pkcs = NULL;
@@ -590,18 +592,18 @@ static int add_ext(X509 * crt, int nid, char *value) {
     return notBefore == NSOrderedDescending && notAfter == NSOrderedAscending;
 }
 
-- (X509 *) copyOpenSSLX509 {
+- (nullable X509 *) copyOpenSSLX509 {
     const unsigned char *p = [_derCert bytes];
     return d2i_X509(NULL, &p, [_derCert length]);
 }
 
 // Return a SHA1 digest of the contents of the certificate
-- (NSData *) digest {
+- (nullable NSData *) digest {
     return [self digestOfKind:@"sha1"];
 }
 
 // Return a digest of digestKind of the contents of the certificate.
-- (NSData *) digestOfKind:(NSString *)digestKind {
+- (nullable NSData *) digestOfKind:(NSString *)digestKind {
     if (_derCert == nil) {
         return nil;
     }
@@ -625,12 +627,12 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 // Return a hex-encoded SHA1 digest of the contents of the certificate
-- (NSString *) hexDigest {
+- (nullable NSString *) hexDigest {
     return [self hexDigestOfKind:@"sha1"];
 }
 
 // Return a hex-encoded digest of the given kind of the contents of the certificate.
-- (NSString *) hexDigestOfKind:(NSString *)digestKind {
+- (nullable NSString *) hexDigestOfKind:(NSString *)digestKind {
     if (_derCert == nil) {
         return nil;
     }
@@ -654,7 +656,7 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 // Returns a subject name that is suitable for display to a user.
-- (NSString *) subjectName {
+- (nullable NSString *) subjectName {
     // If the subject has a CN, use that.
     NSString *name = [_subjectDict objectForKey:MKCertificateItemCommonName];
     if (name != nil) {
@@ -679,13 +681,13 @@ static int add_ext(X509 * crt, int nid, char *value) {
 
 // Get the common name of a MKCertificate.  If no common name is available,
 // nil is returned.
-- (NSString *) commonName {
+- (nullable NSString *) commonName {
     return [_subjectDict objectForKey:MKCertificateItemCommonName];
 }
 
 // Get the email of the subject of the MKCertificate.  If no email is available,
 // nil is returned.
-- (NSString *) emailAddress {
+- (nullable NSString *) emailAddress {
     if (_emailAddresses && [_emailAddresses count] > 0) {
         return [_emailAddresses objectAtIndex:0];
     }
@@ -693,27 +695,27 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 // Get the issuer name of the MKCertificate.  If no issuer is present, nil is returned.
-- (NSString *) issuerName {
+- (nullable NSString *) issuerName {
     return [self issuerItem:MKCertificateItemCommonName];
 }
 
 // Returns the expiry date of the certificate.
-- (NSDate *) notAfter {
+- (nullable NSDate *) notAfter {
     return _notAfterDate;
 }
 
 // Returns the notBefore date of the certificate.
-- (NSDate *) notBefore {
+- (nullable NSDate *) notBefore {
     return _notBeforeDate;
 }
 
 // Look up an issuer item.
-- (NSString *) issuerItem:(NSString *)item {
+- (nullable NSString *) issuerItem:(NSString *)item {
     return [_issuerDict objectForKey:item];
 }
 
 // Look up a subject item.
-- (NSString *) subjectItem:(NSString *)item {
+- (nullable NSString *) subjectItem:(NSString *)item {
     return [_subjectDict objectForKey:item];
 }
 
@@ -728,7 +730,7 @@ static int add_ext(X509 * crt, int nid, char *value) {
 
 @implementation MKRSAKeyPair
 
-+ (MKRSAKeyPair *) generateKeyPairOfSize:(NSUInteger)bits withDelegate:(id<MKRSAKeyPairDelegate>)delegate {
++ (MKRSAKeyPair *) generateKeyPairOfSize:(NSUInteger)bits withDelegate:(nullable id<MKRSAKeyPairDelegate>)delegate {
     MKRSAKeyPair *kp = [[MKRSAKeyPair alloc] init];
     if (delegate == nil) {
         [kp genKeysWithSize:bits];
@@ -774,3 +776,4 @@ static int add_ext(X509 * crt, int nid, char *value) {
 }
 
 @end
+NS_ASSUME_NONNULL_END

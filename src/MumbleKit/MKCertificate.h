@@ -8,7 +8,9 @@
 /// @name MKCertificate accessor items
 ///-----------------------------------
 
-/// @constant The Common Name item. (CN) 
+NS_ASSUME_NONNULL_BEGIN
+
+/// @constant The Common Name item. (CN)
 extern NSString *MKCertificateItemCommonName;
 
 /// @constant The Country item. (C)
@@ -38,7 +40,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// @returns A MKCertificate object with the given certificate data and optionally the
 ///          given private key. Passing in a private key is mostly used in situations
 ///          where one wants to export the certificate in another format (for example PKCS12).
-+ (MKCertificate *) certificateWithCertificate:(NSData *)cert privateKey:(NSData *)privkey;
++ (MKCertificate *) certificateWithCertificate:(NSData *)cert privateKey:(nullable NSData *)privkey;
 
 /// Generate a self-signed MKCertificate object using the given name and email address.
 /// This generates a public and private keypair, and uses that key pair to create a self-
@@ -51,7 +53,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns A MKCertificate that backs a self-signed X.509 certificate backed by a random
 ///          public and private keypair.
-+ (MKCertificate *) selfSignedCertificateWithName:(NSString *)name email:(NSString *)email;
++ (MKCertificate *) selfSignedCertificateWithName:(nullable NSString *)name email:(nullable NSString *)email;
 
 /// Generate a self-signed MKCertificate object using the given name and email address.
 /// This method optionally takes a MKRSAKeyPair which it will use for the certificate it
@@ -69,7 +71,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns A MKCertificate that backs a self-signed X.509 certificate backed by a random
 ///          public and private keypair.
-+ (MKCertificate *) selfSignedCertificateWithName:(NSString *)name email:(NSString *)email rsaKeyPair:(MKRSAKeyPair *)keyPair;
++ (MKCertificate *) selfSignedCertificateWithName:(nullable NSString *)name email:(nullable NSString *)email rsaKeyPair:(nullable MKRSAKeyPair *)keyPair;
 
 /// Import a certificate from a PKCS12 file with the given password.
 ///
@@ -80,7 +82,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns A MKCertificate backed by the certificate and public and private keypair
 ///          from the given PKCS12 data.
-+ (MKCertificate *) certificateWithPKCS12:(NSData *)pkcs12 password:(NSString *)password;
++ (MKCertificate *) certificateWithPKCS12:(NSData *)pkcs12 password:(nullable NSString *)password;
 
 /// Import one or more certificates from a PKCS12 file with the given password.
 ///
@@ -94,7 +96,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///          If the pkcs12 blob contained a private key, that private key will be paired with
 ///          the certificate it corresponds to.
 ///          The leaf certificate is guaranteed to be at index 0 in the returned NSArray.
-+ (NSArray *) certificatesWithPKCS12:(NSData *)pkcs12 password:(NSString *)password;
++ (NSArray *) certificatesWithPKCS12:(NSData *)pkcs12 password:(nullable NSString *)password;
 
 ///---------------------------------------------
 /// @name Certificate content and content status
@@ -109,7 +111,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// Get a pointer to the NSData object holding the certificate in DER format.
 ///
 /// @return Returns the DER-formatted certificate underlying this MKCertificate object.
-- (NSData *) certificate;
+- (nullable NSData *) certificate;
 
 /// Determine whether the MKCertficiate object has private key data.
 ///
@@ -120,7 +122,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// Get a pointer to the NSData object holding the private key in DER format.
 ///
 /// @return Returns the DER-formatted private key underlying this MKCertificate object.
-- (NSData *) privateKey;
+- (nullable NSData *) privateKey;
 
 ///--------------------------------
 /// @name Exporting a MKCertificate
@@ -142,7 +144,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns Returns an NSData object that holds the PKCS12 encoded version
 ///          of the passed-in certificate chain.
-+ (NSData *) exportCertificateChainAsPKCS12:(NSArray *)chain withPassword:(NSString *)password;
++ (NSData *) exportCertificateChainAsPKCS12:(NSArray *)chain withPassword:(nullable NSString *)password;
 
 /// Export a MKCertificate object to a PKCS12 data blob using the given password.
 /// The method will export both the certificate and its corresponding private key
@@ -167,7 +169,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// of the receiving MKCertificate object.
 ///
 /// @returns An NSData object that holds the calculated SHA1 digest.
-- (NSData *) digest;
+- (nullable NSData *) digest;
 
 /// Returns a digest of the given kind of the raw DER-data backing
 /// the certificate and the public key of the receiving MKCertificate object.
@@ -175,19 +177,19 @@ extern NSString *MKCertificateItemSerialNumber;
 /// @param  A digest kind (currently supports @"sha1" and @"sha256".
 ///
 /// @returns An NSData object that holds the calculated digest.
-- (NSData *) digestOfKind:(NSString *)digestKind;
+- (nullable NSData *) digestOfKind:(NSString *)digestKind;
 
 /// Returns a hex-encoded SHA1 digest of the raw DER-data backing the certifiate and the
 /// public key of the receiving MKCertificate object.
 ///
 /// @returns A NSString with the (lowercase) hex-encoded SHA1 digest.
-- (NSString *) hexDigest;
+- (nullable NSString *) hexDigest;
 
 /// Returns a hex-encoded digest of the given kind of the raw DER-data backing
 /// the certificate and the public key of the receiving MKCertificate object.
 ///
 /// @returns A NSString with the (lowercase) hex-encoded digest.
-- (NSString *) hexDigestOfKind:(NSString *)digestKind;
+- (nullable NSString *) hexDigestOfKind:(NSString *)digestKind;
 
 ///---------------------
 /// @name Validity Dates
@@ -197,7 +199,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// This determines the date from which the certificate is deemed valid.
 ///
 /// @returns An NSDate object with the Not Before date.
-- (NSDate *) notBefore;
+- (nullable NSDate *) notBefore;
 
 /// Returns the Not After date of the X.509 certificate.
 /// This date expresses the moment at which the certificate stops being deemed valid.
@@ -205,7 +207,7 @@ extern NSString *MKCertificateItemSerialNumber;
 /// an authoritative method of determining certificate validity.
 ///
 /// @returns An NSDate object with the Not After date.
-- (NSDate *) notAfter;
+- (nullable NSDate *) notAfter;
 
 ///--------------------------------------
 /// @name Signature and Date Verification
@@ -235,23 +237,23 @@ extern NSString *MKCertificateItemSerialNumber;
 /// This can either be a common name, or an email address, depending on the certificate.
 ///
 /// @returns An NSString representing the subject name.
-- (NSString *) subjectName;
+- (nullable NSString *) subjectName;
 
 /// Returns the CN (Common Name) value of subject of the X.509 certificate.
 ///
 /// @returns An NSString with the Common Name.
-- (NSString *) commonName;
+- (nullable NSString *) commonName;
 
 /// Returns the first email address listed in the X.509 certificate.
 /// (This email is looked after in Subject Alt. Names.)
 ///
 /// @returns An NSString with the email address.
-- (NSString *) emailAddress;
+- (nullable NSString *) emailAddress;
 
 /// Returns the name of the body that issued the X.509 certificate.
 ///
 /// @returns An NSString with the issuer name.
-- (NSString *) issuerName;
+- (nullable NSString *) issuerName;
 
 /// The issuerItem: method is used to directly access the issuer items of the X.509
 /// certificate.
@@ -262,7 +264,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns The value of the looked-up issuer item. Returns nil if the issuer
 ///          item was not found.
-- (NSString *) issuerItem:(NSString *)item;
+- (nullable NSString *) issuerItem:(NSString *)item;
 
 /// The subjectItem: method is used to directly access the subject items of the X.509
 /// certificate.
@@ -273,7 +275,7 @@ extern NSString *MKCertificateItemSerialNumber;
 ///
 /// @returns The value of the looked-up subject item. Returns nil if the subject item
 ///          was not found.
-- (NSString *) subjectItem:(NSString *)item;
+- (nullable NSString *) subjectItem:(NSString *)item;
 
 @end
 
@@ -305,7 +307,8 @@ extern NSString *MKCertificateItemSerialNumber;
 ///                    and call the delegate on the main thread.
 ///
 /// @returns A MKRSAKeyPair with a private and a public RSA key of bits length.
-+ (MKRSAKeyPair *) generateKeyPairOfSize:(NSUInteger)bits withDelegate:(id<MKRSAKeyPairDelegate>)delegate;
++ (MKRSAKeyPair *) generateKeyPairOfSize:(NSUInteger)bits withDelegate:(nullable id<MKRSAKeyPairDelegate>)delegate;
 - (NSData *) publicKey;
 - (NSData *) privateKey;
 @end
+NS_ASSUME_NONNULL_END
