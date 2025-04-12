@@ -26,14 +26,16 @@
 #import <UIKit/UIKit.h>
 #endif
 
+NS_ASSUME_NONNULL_BEGIN
+
 NSString *MKAudioDidRestartNotification = @"MKAudioDidRestartNotification";
 
 @interface MKAudio () {
     id<MKAudioDelegate>      _delegate;
-    MKAudioDevice            *_audioDevice;
-    MKAudioInput             *_audioInput;
-    MKAudioOutput            *_audioOutput;
-    MKAudioOutputSidetone    *_sidetoneOutput;
+    MKAudioDevice            * _Nullable _audioDevice;
+    MKAudioInput             * _Nullable _audioInput;
+    MKAudioOutput            * _Nullable _audioOutput;
+    MKAudioOutputSidetone    * _Nullable _sidetoneOutput;
     MKConnection             *_connection;
     MKAudioSettings          _audioSettings;
     BOOL                     _running;
@@ -412,7 +414,7 @@ static void MKAudio_UpdateAudioSessionSettings(MKAudio *audio) {
     }
 }
 
-- (MKAudioOutputSidetone *) sidetoneOutput {
+- (nullable MKAudioOutputSidetone *) sidetoneOutput {
     return _sidetoneOutput;
 }
 
@@ -487,8 +489,9 @@ static void MKAudio_UpdateAudioSessionSettings(MKAudio *audio) {
     return NO;
 }
 
-- (NSDictionary *) copyAudioOutputMixerDebugInfo {
+- (nullable NSDictionary *) copyAudioOutputMixerDebugInfo {
     return [_audioOutput copyMixerInfo];
 }
 
 @end
+NS_ASSUME_NONNULL_END

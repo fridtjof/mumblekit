@@ -12,6 +12,8 @@
 
 #define SAMPLE_RATE 48000
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *MKAudioDidRestartNotification;
 
 typedef enum _MKCodecFormat {
@@ -209,7 +211,7 @@ typedef struct _MKAudioSettings {
 ///               for audio purposes.
 - (void) setMainConnectionForAudio:(MKConnection *)conn;
 - (void) addFrameToBufferWithSession:(NSUInteger)session data:(NSData *)data sequence:(NSUInteger)seq type:(MKUDPMessageType)msgType;
-- (MKAudioOutputSidetone *) sidetoneOutput;
+- (nullable MKAudioOutputSidetone *) sidetoneOutput;
 - (float) speechProbablity;
 - (float) peakCleanMic;
 
@@ -223,6 +225,7 @@ typedef struct _MKAudioSettings {
 /// If this method is called without enabling the
 /// audioMixerDebug flag in MKSettings, the debug
 /// info will be mostly empty, but still valid.
-- (NSDictionary *) copyAudioOutputMixerDebugInfo;
+- (nullable NSDictionary *) copyAudioOutputMixerDebugInfo;
 
 @end
+NS_ASSUME_NONNULL_END
