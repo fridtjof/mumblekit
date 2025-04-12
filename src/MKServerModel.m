@@ -30,10 +30,12 @@
 - (void) setMuted:(BOOL)muted;
 @end
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface MKServerModel () {
     MKConnection              *_connection;
     MKChannel                 *_rootChannel;
-    MKUser                    *_connectedUser;
+    MKUser                    * _Nullable _connectedUser;
     NSMutableDictionary       *_userMap;
     NSMutableDictionary       *_channelMap;
     id<MKServerModelDelegate> _delegate;    
@@ -44,7 +46,7 @@
 
 // Internal user operations
 - (MKUser *) internalAddUserWithSession:(NSUInteger)userSession name:(NSString *)userName;
-- (void) internalMoveUser:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(MKChannel *)prevChan byUser:(MKUser *)mover;
+- (void) internalMoveUser:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(nullable MKChannel *)prevChan byUser:(nullable MKUser *)mover;
 - (void) internalSetSelfMuteDeafenStateForUser:(MKUser *)user fromMessage:(MPUserState *)msg;
 - (void) internalSetMuteStateForUser:(MKUser *)user fromMessage:(MPUserState *)msg;
 - (void) internalSetPrioritySpeakerStateForUser:(MKUser *)user to:(BOOL)prioritySpeaker;
@@ -717,7 +719,7 @@
     }
 }
 
-- (void) internalMoveUser:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(MKChannel *)prevChan byUser:(MKUser *)mover {
+- (void) internalMoveUser:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(nullable MKChannel *)prevChan byUser:(nullable MKUser *)mover {
     [chan addUser:user];
 
     if (_connectedUser) {
@@ -897,20 +899,20 @@
     return _rootChannel;
 }
 
-- (MKUser *) connectedUser {
+- (nullable MKUser *) connectedUser {
     return _connectedUser;
 }
 
-- (MKUser *) userWithSession:(NSUInteger)session {
+- (nullable MKUser *) userWithSession:(NSUInteger)session {
     return [_userMap objectForKey:[NSNumber numberWithUnsignedInteger:session]];
 }
 
-- (MKUser *) userWithHash:(NSString *)hash {
+- (nullable MKUser *) userWithHash:(NSString *)hash {
     return nil;
 }
 
 // Lookup a channel by its channelId.
-- (MKChannel *) channelWithId:(NSUInteger)channelId {
+- (nullable MKChannel *) channelWithId:(NSUInteger)channelId {
     return [_channelMap objectForKey:[NSNumber numberWithUnsignedInteger:channelId]];
 }
 
@@ -998,7 +1000,7 @@
 #pragma mark -
 #pragma mark Text message operations
 
-- (void) sendTextMessage:(MKTextMessage *)txtMsg toTreeChannels:(NSArray *)trees andChannels:(NSArray *)channels andUsers:(NSArray *)users {
+- (void) sendTextMessage:(MKTextMessage *)txtMsg toTreeChannels:(nullable NSArray *)trees andChannels:(nullable NSArray *)channels andUsers:(nullable NSArray *)users {
     NSMutableArray *treeIds = [[[NSMutableArray alloc] initWithCapacity:[trees count]] autorelease];
     for (MKChannel *chan in trees) {
         [treeIds addObject:[NSNumber numberWithUnsignedLong:[chan channelId]]];
@@ -1081,3 +1083,5 @@
 }
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -12,6 +12,7 @@
 @class MulticastDelegate;
 @class MKServerModel;
 
+NS_ASSUME_NONNULL_BEGIN
 /// @protocol MKServerModelDelegaet MKServerModel.h MumbleKit/MKServerModel.h
 ///
 /// MKServerModelDelegate is the delegate of MKServerModel.
@@ -38,7 +39,7 @@
 /// @param model  The MKServerModel object in which this event originated.
 /// @param user   The MKUser object representing the local user.
 /// @param msg    The welcome message presented by the server.
-- (void) serverModel:(MKServerModel *)model joinedServerAsUser:(MKUser *)user withWelcomeMessage:(MKTextMessage *)msg;
+- (void) serverModel:(MKServerModel *)model joinedServerAsUser:(MKUser *)user withWelcomeMessage:(nullable MKTextMessage *)msg;
 
 /// Called when disconnected from the server (forcefully or not).
 ///
@@ -81,7 +82,7 @@
 /// @param chan   The channel to which user was moved to.
 /// @param mover  The user that performed the user move. If the move was
 ///               performed by the server, mover is nil.
-- (void) serverModel:(MKServerModel *)model userMoved:(MKUser *)user toChannel:(MKChannel *)chan byUser:(MKUser *)mover;
+- (void) serverModel:(MKServerModel *)model userMoved:(MKUser *)user toChannel:(MKChannel *)chan byUser:(nullable MKUser *)mover;
 
 /// Called when a user is moved to another channel.
 /// This is also called when a user changes the channel he resides in (in which
@@ -95,7 +96,7 @@
 /// @param prevChan  The channel from which the user was moved. (May be nil)
 /// @param mover     The user that performed the user move. If the move was
 ///                  performed by the server, mover is nil.
-- (void) serverModel:(MKServerModel *)model userMoved:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(MKChannel *)prevChan byUser:(MKUser *)mover;
+- (void) serverModel:(MKServerModel *)model userMoved:(MKUser *)user toChannel:(MKChannel *)chan fromChannel:(nullable MKChannel *)prevChan byUser:(nullable MKUser *)mover;
 
 /// Called when a user's comment is changed.
 ///
@@ -118,7 +119,7 @@
 /// @param model  The MKServerModel in which this event originated.
 /// @param msg    The MKTextMessage object representing the received text message.
 /// @param user   The MKUser that sent the text message (nil if the message was sent by the server).
-- (void) serverModel:(MKServerModel *)model textMessageReceived:(MKTextMessage *)msg fromUser:(MKUser *)user;
+- (void) serverModel:(MKServerModel *)model textMessageReceived:(MKTextMessage *)msg fromUser:(nullable MKUser *)user;
 
 ///--------------------------------
 /// @name Self-mute and self-deafen
@@ -164,7 +165,7 @@
 /// @param user   The user who was mute-deafened.
 /// @param actor  The user who initiated the mute-deafen action on the other user.
 ///               May be nil if the server mute-deafened the user. 
-- (void) serverModel:(MKServerModel *)model userMutedAndDeafened:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userMutedAndDeafened:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user removes mute-deafen status from another user.
 ///
@@ -172,7 +173,7 @@
 /// @param user   The user whose mute-deafen status was removed.
 /// @param actor  The user who iniated the removal of the other user's mute-deafen status.
 ///               May be nil if the server removed the mute-deafen status.
-- (void) serverModel:(MKServerModel *)model userUnmutedAndUndeafened:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userUnmutedAndUndeafened:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is muted by another user.
 ///
@@ -180,7 +181,7 @@
 /// @param user   The user who was muted.
 /// @param actor  The user who muted the other user. May be nil if the user was muted by
 ///               the server.
-- (void) serverModel:(MKServerModel *)model userMuted:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userMuted:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is unmuted by another user.
 ///
@@ -188,7 +189,7 @@
 /// @param user   The user who was unmuted.
 /// @param actor  The user who unmuted the other user. May be nil if the user was unmuted by the
 ///               server.
-- (void) serverModel:(MKServerModel *)model userUnmuted:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userUnmuted:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is deafened by another user.
 ///
@@ -196,7 +197,7 @@
 /// @param user   The user who was deafened.
 /// @param actor  The user who deafened the other user. May be nil if the user was deafened by
 ///               the server.
-- (void) serverModel:(MKServerModel *)model userDeafened:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userDeafened:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is undeafened by another user.
 ///
@@ -204,7 +205,7 @@
 /// @param user   The user who was undeafened.
 /// @param actor  The user who undeafened the other user. May be nil if the user was undeafened
 ///               by the server.
-- (void) serverModel:(MKServerModel *)model userUndeafened:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userUndeafened:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is suppressed by another user.
 ///
@@ -212,7 +213,7 @@
 /// @param user   The user who was suppressed.
 /// @param actor  The user who suppressed the other user. May be nil if the user was
 ///              suppressed by the server.
-- (void) serverModel:(MKServerModel *)model userSuppressed:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userSuppressed:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user is unsuppressed by another user. 
 ///
@@ -220,7 +221,7 @@
 /// @param user   The user who was unsuppressed.
 /// @param actor  The user who unsuppresed the other user. May be nil if the user was
 ///               unsupressed by the server.
-- (void) serverModel:(MKServerModel *)model userUnsuppressed:(MKUser *)user byUser:(MKUser *)actor;
+- (void) serverModel:(MKServerModel *)model userUnsuppressed:(MKUser *)user byUser:(nullable MKUser *)actor;
 
 /// Called when a user's mute state changes.
 ///
@@ -262,8 +263,8 @@
 /// @param user    The user that was banned.
 /// @param actor   The user that banned the other user. May be nil if the
 ///                ban was initiated by the server.
-/// @param reason  The reason for the ban.
-- (void) serverModel:(MKServerModel *)model userBanned:(MKUser *)user byUser:(MKUser *)actor forReason:(NSString *)reason;
+/// @param reason  The reason for the ban. May be nil if no reason was given.
+- (void) serverModel:(MKServerModel *)model userBanned:(MKUser *)user byUser:(nullable MKUser *)actor forReason:(nullable NSString *)reason;
 
 /// Called when a user is kicked by another user (or the server).
 ///
@@ -271,8 +272,8 @@
 /// @param user    The user that was kicked.
 /// @param actor   The user that kicked the other user. May be nil if the
 ///                server initiated the kick.
-/// @param reason  The reason for kicking the user off the server.
-- (void) serverModel:(MKServerModel *)model userKicked:(MKUser *)user byUser:(MKUser *)actor forReason:(NSString *)reason;
+/// @param reason  The reason for kicking the user off the server. May be nil if no reason was given.
+- (void) serverModel:(MKServerModel *)model userKicked:(MKUser *)user byUser:(nullable MKUser *)actor forReason:(nullable NSString *)reason;
 
 /// Called when a user disconnects from the server.
 ///
@@ -364,7 +365,7 @@
 /// @param  perm     The permission that was denied
 /// @param  user     The user for whom the permission was denied.
 /// @param  channel  The channel in which the permission was denied.
-- (void) serverModel:(MKServerModel *)model permissionDenied:(MKPermission)perm forUser:(MKUser *)user inChannel:(MKChannel *)channel;
+- (void) serverModel:(MKServerModel *)model permissionDenied:(MKPermission)perm forUser:(MKUser *)user inChannel:(nullable MKChannel *)channel;
 
 /// Called when a channel was attempted to be named or renamed to something
 /// which was not allowed by the server.
@@ -397,7 +398,7 @@
 ///
 /// @param  model  The MKServerModel in which this error occurred.
 /// @param  name   The name that was deemed invalid by the server. May be nil.
-- (void) serverModel:(MKServerModel *)model invalidUsernameErrorForName:(NSString *)name;
+- (void) serverModel:(MKServerModel *)model invalidUsernameErrorForName:(nullable NSString *)name;
 
 /// Called when a channel user move operation failed because the destination
 /// channel was full. (Note: A joinChannel: also counts as a move operation.)
@@ -418,7 +419,7 @@
 ///
 /// @param  model   The MKServerModel in which this error occurred.
 /// @param  reason  The reason for the error. May be nil if no reason was given.
-- (void) serverModel:(MKServerModel *)model permissionDeniedForReason:(NSString *)reason;
+- (void) serverModel:(MKServerModel *)model permissionDeniedForReason:(nullable NSString *)reason;
 
 /// Called after an access control request
 ///
@@ -473,7 +474,7 @@
 ///-----------------------
 
 /// Returns the connected user. The connected user is the user that 
-- (MKUser *) connectedUser;
+- (nullable MKUser *) connectedUser;
 
 /// Look up a user by session ID.
 ///
@@ -481,7 +482,7 @@
 ///
 /// @returns  Returns the user with the given session ID. Returns nil
 ///           if the user does not exist on the server.
-- (MKUser *) userWithSession:(NSUInteger)session;
+- (nullable MKUser *) userWithSession:(NSUInteger)session;
 
 /// Look up a user by hash. Most commonly, the hash of a user is the SHA1 digest
 /// of their X.509 certificate.
@@ -490,7 +491,7 @@
 ///
 /// @returns  Returns the user with the given hash. Returns nil if the user
 ///           does not exist on the server.
-- (MKUser *) userWithHash:(NSString *)hash;
+- (nullable MKUser *) userWithHash:(NSString *)hash;
 
 ///-------------------------
 /// @name Channel operations
@@ -505,7 +506,7 @@
 /// Look up a channel by its channel ID.
 ///
 /// @param channelId  The channel ID to look up.
-- (MKChannel *) channelWithId:(NSUInteger)channelId;
+- (nullable MKChannel *) channelWithId:(NSUInteger)channelId;
 
 /// Ask the underlying connection to join the given channel.
 ///
@@ -553,7 +554,7 @@
 ///                   channels in this array.
 ///
 /// @param  users  An NSArray of MKUser objects (or nil).
-- (void) sendTextMessage:(MKTextMessage *)txtMsg toTreeChannels:(NSArray *)trees andChannels:(NSArray *)channels andUsers:(NSArray *)users;
+- (void) sendTextMessage:(MKTextMessage *)txtMsg toTreeChannels:(nullable NSArray *)trees andChannels:(nullable NSArray *)channels andUsers:(nullable NSArray *)users;
 
 /// Send a message to all users in the channel chan and all of its descendants
 /// (subchannels, children of subchannels, and so on).
@@ -604,3 +605,4 @@
 - (void) registerConnectedUser;
 
 @end
+NS_ASSUME_NONNULL_END
