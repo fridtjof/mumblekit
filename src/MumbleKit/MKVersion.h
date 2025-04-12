@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+NS_ASSUME_NONNULL_BEGIN
 /// @class MKVersion MKVersion.h MumbleKit/MKVersion.h
 @interface MKVersion : NSObject
 + (MKVersion *) sharedVersion;
@@ -13,3 +14,4 @@
 - (void) setOpusEnabled:(BOOL)isEnabled;
 - (BOOL) isOpusEnabled;
 @end
+NS_ASSUME_NONNULL_END
